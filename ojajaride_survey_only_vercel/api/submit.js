@@ -1,3 +1,4 @@
+import nodemailer from 'nodemailer';
 const LABELS = {
   q1_consent:'1. Consent to take the anonymous survey', q2_age:'2. Age group', q3_gender:'3. Gender',
   q4_platforms:'4. Platforms driven on', q4_other:'4. Other platform', q5_experience:'5. Ride-hailing experience',
@@ -78,6 +79,7 @@ export default async function handler(req, res) {
   let emailed = false;
   const warnings = [];
 
+  // Optional database backup. Leave these variables unset if you do not use Supabase.
   if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
     try {
       const r = await fetch(`${process.env.SUPABASE_URL.replace(/\/$/,'')}/rest/v1/driver_survey_responses`, {
@@ -94,30 +96,48 @@ export default async function handler(req, res) {
     } catch { warnings.push('Database backup failed'); }
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
+  const host = process.env.SMTP_HOST || 'mail.privateemail.com';
+  const port = Number(process.env.SMTP_PORT || 465);
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASSWORD;
   const to = process.env.SURVEY_TO_EMAIL || 'info@ojajaride.com';
-  const from = process.env.RESEND_FROM || 'OJAJA Ride Survey <survey@ojajaride.com>';
-  if (!apiKey) return res.status(500).json({ok:false,error:'Email service is not configured. Add RESEND_API_KEY in Vercel.',stored,warnings});
+  const from = process.env.SMTP_FROM || `OJAJA Ride Survey <${user || 'info@ojajaride.com'}>`;
+
+  if (!user || !pass) {
+    return res.status(500).json({
+      ok:false,
+      error:'Email service is not configured. Add SMTP_USER and SMTP_PASSWORD in Vercel.',
+      stored,
+      warnings
+    });
+  }
 
   try {
-    const r = await fetch('https://api.resend.com/emails', {
-      method:'POST',
-      headers:{'Authorization':`Bearer ${apiKey}`,'Content-Type':'application/json'},
-      body:JSON.stringify({
-        from,
-        to:[to],
-        subject:'New OJAJA Ride Driver Survey Response',
-        text:textBody(data, submittedAt),
-        html:htmlBody(data, submittedAt)
-      })
+    const transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure: port === 465,
+      auth:{user,pass},
+      connectionTimeout:10000,
+      greetingTimeout:10000,
+      socketTimeout:20000
     });
-    if (!r.ok) {
-      const detail = await r.text();
-      return res.status(502).json({ok:false,error:'The survey was received but the email could not be sent.',stored,detail:detail.slice(0,400)});
-    }
+
+    await transporter.sendMail({
+      from,
+      to,
+      subject:'New OJAJA Ride Driver Survey Response',
+      text:textBody(data, submittedAt),
+      html:htmlBody(data, submittedAt)
+    });
     emailed = true;
-  } catch {
-    return res.status(502).json({ok:false,error:'The survey was received but the email service could not be reached.',stored});
+  } catch (err) {
+    console.error('SMTP send failed:', err?.message || err);
+    return res.status(502).json({
+      ok:false,
+      error:'The survey was received but the email could not be sent. Check the SMTP settings in Vercel.',
+      stored
+    });
   }
 
   return res.status(200).json({ok:true,emailed,stored,warnings});
