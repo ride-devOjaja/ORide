@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#6f42d9">
+<title>Driver Survey | OJAJA Ride</title>
+<style>
+:root{
+  --bg:#f6f7fb;--surface:#ffffff;--ink:#1b1e2b;--muted:#686d7b;--line:#e7e9f1;
+  --purple:#7445dc;--purple2:#9a67ef;--dark:#181b25;--good:#16794b;--warn:#b45f06;
+  --radius:20px;--shadow:0 18px 55px rgba(32,35,48,.08)
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+.hero{background:linear-gradient(135deg,#181b25 0%,#211d33 58%,#3a266f 100%);color:white;padding:34px 20px 84px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:360px;height:360px;border-radius:50%;background:rgba(154,103,239,.16);right:-110px;top:-130px}
+.hero-inner{max-width:920px;margin:auto;position:relative;z-index:1}.logo{width:min(195px,62vw);height:auto;display:block;margin-bottom:24px}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:7px 11px;font-size:.82rem}
+h1{font-size:clamp(2rem,6vw,3.8rem);line-height:1.02;margin:18px 0 12px;max-width:780px;letter-spacing:-.045em}
+.hero p{max-width:760px;color:#e7e4f0;font-size:1.03rem;margin:0}.hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.pill{background:rgba(255,255,255,.09);padding:8px 11px;border-radius:999px;font-size:.88rem}
+.wrap{max-width:920px;margin:-48px auto 70px;padding:0 18px;position:relative;z-index:2}.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.progress-shell{padding:18px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);z-index:10}.progress-row{display:flex;justify-content:space-between;gap:12px;font-size:.88rem;color:var(--muted);margin-bottom:9px}.progress-track{height:8px;background:#eeeaf8;border-radius:999px;overflow:hidden}.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--purple2));transition:width .25s ease}
+.form-inner{padding:24px}.section{display:none;animation:fade .22s ease}.section.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.section-head{margin-bottom:20px}.section-kicker{color:var(--purple);font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}.section h2{font-size:1.65rem;margin:5px 0 6px;letter-spacing:-.02em}.section-head p{margin:0;color:var(--muted)}
+.question{padding:20px 0;border-top:1px solid var(--line)}.question:first-of-type{border-top:none}.qtitle{font-weight:740;margin-bottom:10px}.hint{font-size:.88rem;color:var(--muted);margin-top:-5px;margin-bottom:10px}
+.options{display:grid;gap:9px}.options.two{grid-template-columns:repeat(2,minmax(0,1fr))}.options.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.choice{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:13px;padding:12px 13px;background:#fff;cursor:pointer;transition:.16s ease}.choice:hover{border-color:#cbb7f7;background:#faf8ff}.choice input{margin-top:3px;accent-color:var(--purple);transform:scale(1.08)}
+input[type=text],input[type=tel],textarea,select{width:100%;border:1px solid #dfe2eb;border-radius:12px;padding:12px 13px;font:inherit;color:var(--ink);background:white;outline:none;transition:.15s}textarea{min-height:105px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(116,69,220,.12)}
+.other{margin-top:10px}.subgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.subbox{background:#faf9fd;border:1px solid var(--line);border-radius:14px;padding:14px}.subbox strong{display:block;margin-bottom:8px}
+.nav{display:flex;justify-content:space-between;gap:12px;padding-top:22px;margin-top:6px;border-top:1px solid var(--line)}button{border:0;border-radius:12px;padding:12px 18px;font:inherit;font-weight:750;cursor:pointer}.btn-back{background:#eef0f6;color:#343746}.btn-next,.btn-submit{background:linear-gradient(135deg,var(--purple),#8d59e7);color:white;box-shadow:0 8px 20px rgba(116,69,220,.22)}button:disabled{opacity:.5;cursor:not-allowed}.submit-status{display:none;margin-top:18px;padding:13px 15px;border-radius:12px;font-size:.92rem}.submit-status.show{display:block}.submit-status.error{background:#fff1f1;color:#9c2631;border:1px solid #f2c9cd}.submit-status.info{background:#f0ebff;color:#5931a8;border:1px solid #d8c9fb}.btn-submit.loading{opacity:.7;pointer-events:none}
+.notice{border:1px solid #e8dcff;background:#faf7ff;border-radius:15px;padding:14px 16px;color:#4f3b79;margin-bottom:20px}.notice strong{color:#35265a}.error{background:#fff4f2;border:1px solid #ffd5ce;color:#8d2a1f;padding:13px 15px;border-radius:12px;margin-bottom:18px}
+.success{padding:46px 24px;text-align:center}.success-mark{width:72px;height:72px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:#ecfbf3;color:var(--good);font-size:2rem;font-weight:900}.success h2{font-size:2rem;margin:0 0 8px}.success p{color:var(--muted);max-width:580px;margin:0 auto}.admin-note{margin:22px auto 0;max-width:620px;padding:12px 14px;border-radius:12px;background:#fff7e8;color:#7b4c0b;font-size:.9rem}
+.rank-grid{display:grid;gap:8px}.rank-row{display:grid;grid-template-columns:1fr 90px;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}.rank-row:last-child{border-bottom:0}.rank-row select{padding:9px}
+.ev-card{display:grid;grid-template-columns:1fr 165px;gap:18px;align-items:center;background:#faf8ff;border:1px solid #e6ddfb;border-radius:16px;padding:16px;margin:8px 0 18px}.ev-card img{width:100%;border-radius:12px}.ev-card p{margin:4px 0 0;color:var(--muted);font-size:.93rem}
+.footer{text-align:center;color:#858997;font-size:.82rem;margin-top:18px}.hp{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.stop-box{display:none;margin-top:12px;padding:14px;border-radius:12px;background:#fff4f2;border:1px solid #ffd7d1;color:#782c25}
+@media(max-width:680px){.hero{padding-top:24px}.form-inner{padding:18px}.progress-shell{padding:14px 16px}.options.two,.options.three,.subgrid{grid-template-columns:1fr}.ev-card{grid-template-columns:1fr}.ev-card img{max-width:180px}.rank-row{grid-template-columns:1fr 78px}.nav button{flex:1}.hero-meta{gap:7px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <img src="assets/wordmark.png" alt="OJAJA Ride" class="logo">
+    <span class="eyebrow">Lagos driver research</span>
+    <h1>Lagos Ride-Hailing Driver Survey</h1>
+    <p>Costs, time on the road, fuel, safety and official challenges. Your responses will help us understand the real conditions drivers face and design better operating models.</p>
+    <div class="hero-meta">
+      <span class="pill">Confidential</span><span class="pill">Anonymous</span><span class="pill">About 10–12 minutes</span>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <div class="panel">
+      <div class="progress-shell">
+      <div class="progress-row"><span id="progressLabel">Section 1 of 8</span><span id="progressPercent">13%</span></div>
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+    </div>
+    <form id="surveyForm" novalidate>
+      <div class="form-inner">
+                <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <section class="section active" data-section="0">
+          <div class="section-head"><div class="section-kicker">Section A</div><h2>Consent and background</h2><p>Tick the options that apply. There are no right or wrong answers. Do not write your name unless you choose to leave a contact at the end.</p></div>
+          <div class="notice"><strong>Purpose:</strong> This questionnaire is to understand the real problems ride-hailing drivers face in Lagos, including fuel and scarcity, car maintenance, earnings and expenses, time wasted on the road, insecurity, and dealings with police, LASTMA, VIO and other security or traffic operatives.</div>
+
+          <div class="question"><div class="qtitle">1. Do you agree to take this anonymous survey?</div>
+            <div class="options two">
+              <label class="choice"><input type="radio" name="q1_consent" value="Yes" required> Yes</label>
+              <label class="choice"><input type="radio" name="q1_consent" value="No"> No</label>
+            </div><div class="stop-box" id="consentStop">No problem. The survey will stop here and no answers will be submitted.</div>
+          </div>
+          <div class="question"><div class="qtitle">2. Age group</div><div class="options three">
+            <label class="choice"><input type="radio" name="q2_age" value="18–24"> 18–24</label><label class="choice"><input type="radio" name="q2_age" value="25–34"> 25–34</label><label class="choice"><input type="radio" name="q2_age" value="35–44"> 35–44</label><label class="choice"><input type="radio" name="q2_age" value="45–54"> 45–54</label><label class="choice"><input type="radio" name="q2_age" value="55+"> 55+</label>          </div></div>
+          <div class="question"><div class="qtitle">3. Gender</div><div class="options three">
+            <label class="choice"><input type="radio" name="q3_gender" value="Male"> Male</label><label class="choice"><input type="radio" name="q3_gender" value="Female"> Female</label><label class="choice"><input type="radio" name="q3_gender" value="Prefer not to say"> Prefer not to say</label>          </div></div>
+          <div class="question"><div class="qtitle">4. Which platforms do you drive on?</div><div class="hint">Tick all that apply.</div><div class="options two">
+            <label class="choice"><input type="checkbox" name="q4_platforms[]" value="Bolt"> Bolt</label><label class="choice"><input type="checkbox" name="q4_platforms[]" value="inDrive"> inDrive</label><label class="choice"><input type="checkbox" name="q4_platforms[]" value="LagRide"> LagRide</label><label class="choice"><input type="checkbox" name="q4_platforms[]" value="Uber"> Uber</label>          </div><input class="other" type="text" name="q4_other" placeholder="Other platform"></div>
+          <div class="question"><div class="qtitle">5. How long have you been doing ride-hailing?</div><div class="options two">
+            <label class="choice"><input type="radio" name="q5_experience" value="Less than 6 months"> Less than 6 months</label><label class="choice"><input type="radio" name="q5_experience" value="6–12 months"> 6–12 months</label><label class="choice"><input type="radio" name="q5_experience" value="1–3 years"> 1–3 years</label><label class="choice"><input type="radio" name="q5_experience" value="3–5 years"> 3–5 years</label><label class="choice"><input type="radio" name="q5_experience" value="More than 5 years"> More than 5 years</label>          </div></div>
+          <div class="question"><div class="qtitle">6. Is the car yours, hired, or company/owner-driven?</div><div class="options two">
+            <label class="choice"><input type="radio" name="q6_car" value="Own car"> Own car</label><label class="choice"><input type="radio" name="q6_car" value="Hire-purchase"> Hire-purchase</label><label class="choice"><input type="radio" name="q6_car" value="Daily / weekly hire from an owner"> Daily / weekly hire from an owner</label><label class="choice"><input type="radio" name="q6_car" value="Company or fleet car"> Company or fleet car</label>          </div><input class="other" type="text" name="q6_other" placeholder="Other arrangement"></div>
+          <div class="question"><div class="qtitle">7. Main operating area</div><div class="options two">
+            <label class="choice"><input type="radio" name="q7_area" value="Lagos Island"> Lagos Island</label><label class="choice"><input type="radio" name="q7_area" value="Lekki–Ajah"> Lekki–Ajah</label><label class="choice"><input type="radio" name="q7_area" value="Mainland (Ikeja, Yaba, Surulere, etc.)"> Mainland (Ikeja, Yaba, Surulere, etc.)</label><label class="choice"><input type="radio" name="q7_area" value="Ikorodu"> Ikorodu</label><label class="choice"><input type="radio" name="q7_area" value="Badagry corridor"> Badagry corridor</label><label class="choice"><input type="radio" name="q7_area" value="Mixed / city-wide"> Mixed / city-wide</label>          </div><input class="other" type="text" name="q7_other" placeholder="Other operating area"></div>
+          <div class="question"><div class="qtitle">8. Typical days per week on the app</div><div class="options two">
+            <label class="choice"><input type="radio" name="q8_days" value="3 or fewer"> 3 or fewer</label><label class="choice"><input type="radio" name="q8_days" value="4–5"> 4–5</label><label class="choice"><input type="radio" name="q8_days" value="6"> 6</label><label class="choice"><input type="radio" name="q8_days" value="7"> 7</label>          </div></div>
+          <div class="nav"><span></span><button type="button" class="btn-next">Next: Time on the road</button></div>
+        </section>
+
+        <section class="section" data-section="1">
+          <div class="section-head"><div class="section-kicker">Section B</div><h2>Time on the road</h2><p>Tell us how a normal working day is divided.</p></div>
+                      <div class="question"><div class="qtitle">9. On a typical working day, how many hours are you online or on the road?</div><div class="options two"><label class="choice"><input type="radio" name="q9_hours" value="Under 8"> Under 8</label><label class="choice"><input type="radio" name="q9_hours" value="8–10"> 8–10</label><label class="choice"><input type="radio" name="q9_hours" value="10–12"> 10–12</label><label class="choice"><input type="radio" name="q9_hours" value="12–14"> 12–14</label><label class="choice"><input type="radio" name="q9_hours" value="15 or more"> 15 or more</label></div></div>
+                      <div class="question"><div class="qtitle">10. Of those hours, roughly how many are spent waiting for trips?</div><div class="options two"><label class="choice"><input type="radio" name="q10_waiting" value="0–2"> 0–2</label><label class="choice"><input type="radio" name="q10_waiting" value="2–4"> 2–4</label><label class="choice"><input type="radio" name="q10_waiting" value="4–6"> 4–6</label><label class="choice"><input type="radio" name="q10_waiting" value="6 or more"> 6 or more</label></div></div>
+                      <div class="question"><div class="qtitle">11. Roughly how many hours are spent stuck in traffic (not moving much)?</div><div class="options two"><label class="choice"><input type="radio" name="q11_traffic" value="0–2"> 0–2</label><label class="choice"><input type="radio" name="q11_traffic" value="2–4"> 2–4</label><label class="choice"><input type="radio" name="q11_traffic" value="4–6"> 4–6</label><label class="choice"><input type="radio" name="q11_traffic" value="6 or more"> 6 or more</label></div></div>
+                      <div class="question"><div class="qtitle">12. Roughly how many hours are spent actually carrying a passenger?</div><div class="options two"><label class="choice"><input type="radio" name="q12_passenger" value="0–2"> 0–2</label><label class="choice"><input type="radio" name="q12_passenger" value="2–4"> 2–4</label><label class="choice"><input type="radio" name="q12_passenger" value="4–6"> 4–6</label><label class="choice"><input type="radio" name="q12_passenger" value="6 or more"> 6 or more</label></div></div>
+                      <div class="question"><div class="qtitle">13. How often do you work after 10pm?</div><div class="options two"><label class="choice"><input type="radio" name="q13_after10" value="Never"> Never</label><label class="choice"><input type="radio" name="q13_after10" value="Rarely"> Rarely</label><label class="choice"><input type="radio" name="q13_after10" value="Sometimes"> Sometimes</label><label class="choice"><input type="radio" name="q13_after10" value="Often"> Often</label><label class="choice"><input type="radio" name="q13_after10" value="Almost every night"> Almost every night</label></div></div>
+                    <div class="question"><div class="qtitle">14. What wastes the most time in a normal day?</div><div class="hint">Tick up to two.</div><div class="options two limit-check" data-max="2">
+            <label class="choice"><input type="checkbox" name="q14_timewaste[]" value="Traffic"> Traffic</label><label class="choice"><input type="checkbox" name="q14_timewaste[]" value="Fuel queues"> Fuel queues</label><label class="choice"><input type="checkbox" name="q14_timewaste[]" value="Checkpoints / official stops"> Checkpoints / official stops</label><label class="choice"><input type="checkbox" name="q14_timewaste[]" value="Waiting on the app"> Waiting on the app</label><label class="choice"><input type="checkbox" name="q14_timewaste[]" value="Breakdowns or accidents"> Breakdowns or accidents</label><label class="choice"><input type="checkbox" name="q14_timewaste[]" value="Searching for cheaper fuel"> Searching for cheaper fuel</label>          </div><input class="other" type="text" name="q14_other" placeholder="Other time waster"></div>
+          <div class="nav"><button type="button" class="btn-back">Back</button><button type="button" class="btn-next">Next: Fuel & running costs</button></div>
+        </section>
+
+        <section class="section" data-section="2">
+          <div class="section-head"><div class="section-kicker">Section C</div><h2>Fuel, scarcity and running the car</h2><p>We are looking at both normal fuel costs and what happens when supply is difficult.</p></div>
+          <div class="question"><div class="qtitle">15. What fuel does the car use?</div><div class="options two"><label class="choice"><input type="radio" name="q15_fuel" value="Petrol (PMS)"> Petrol (PMS)</label><label class="choice"><input type="radio" name="q15_fuel" value="Diesel"> Diesel</label><label class="choice"><input type="radio" name="q15_fuel" value="CNG"> CNG</label><label class="choice"><input type="radio" name="q15_fuel" value="Hybrid"> Hybrid</label></div><input class="other" type="text" name="q15_other" placeholder="Other fuel type"></div>
+                    <div class="question"><div class="qtitle">16. How much do you typically spend on fuel per day?</div><div class="options two"><label class="choice"><input type="radio" name="q16_fuel_day" value="Under ₦10,000"> Under ₦10,000</label><label class="choice"><input type="radio" name="q16_fuel_day" value="₦10,000–15,000"> ₦10,000–15,000</label><label class="choice"><input type="radio" name="q16_fuel_day" value="₦15,000–20,000"> ₦15,000–20,000</label><label class="choice"><input type="radio" name="q16_fuel_day" value="₦20,000–25,000"> ₦20,000–25,000</label><label class="choice"><input type="radio" name="q16_fuel_day" value="₦25,000–35,000"> ₦25,000–35,000</label><label class="choice"><input type="radio" name="q16_fuel_day" value="Over ₦35,000"> Over ₦35,000</label></div></div>
+                    <div class="question"><div class="qtitle">17. How much do you typically spend on fuel in a week?</div><div class="options two"><label class="choice"><input type="radio" name="q17_fuel_week" value="Under ₦80,000"> Under ₦80,000</label><label class="choice"><input type="radio" name="q17_fuel_week" value="₦80,000–120,000"> ₦80,000–120,000</label><label class="choice"><input type="radio" name="q17_fuel_week" value="₦120,000–180,000"> ₦120,000–180,000</label><label class="choice"><input type="radio" name="q17_fuel_week" value="Over ₦180,000"> Over ₦180,000</label></div></div>
+                    <div class="question"><div class="qtitle">18. In the last 3 months, how often did fuel scarcity or long queues affect your work?</div><div class="options two"><label class="choice"><input type="radio" name="q18_scarcity" value="Never"> Never</label><label class="choice"><input type="radio" name="q18_scarcity" value="Rarely"> Rarely</label><label class="choice"><input type="radio" name="q18_scarcity" value="Sometimes"> Sometimes</label><label class="choice"><input type="radio" name="q18_scarcity" value="Often"> Often</label><label class="choice"><input type="radio" name="q18_scarcity" value="Almost every week"> Almost every week</label></div></div>
+                    <div class="question"><div class="qtitle">19. When fuel is scarce, what do you usually do?</div><div class="hint">Tick all that apply.</div><div class="options two"><label class="choice"><input type="checkbox" name="q19_scarcity_actions[]" value="Queue for hours"> Queue for hours</label><label class="choice"><input type="checkbox" name="q19_scarcity_actions[]" value="Buy from black market at a higher price"> Buy from black market at a higher price</label><label class="choice"><input type="checkbox" name="q19_scarcity_actions[]" value="Reduce working hours"> Reduce working hours</label><label class="choice"><input type="checkbox" name="q19_scarcity_actions[]" value="Park the car for the day"> Park the car for the day</label><label class="choice"><input type="checkbox" name="q19_scarcity_actions[]" value="Switch platforms"> Switch platforms</label></div><input class="other" type="text" name="q19_other" placeholder="Other action"></div>
+          <div class="question"><div class="qtitle">20. How much extra above pump price do you sometimes pay during scarcity?</div><div class="options two"><label class="choice"><input type="radio" name="q20_extra" value="None"> None</label><label class="choice"><input type="radio" name="q20_extra" value="Up to ₦100 / litre"> Up to ₦100 / litre</label><label class="choice"><input type="radio" name="q20_extra" value="₦100–200"> ₦100–200</label><label class="choice"><input type="radio" name="q20_extra" value="₦200–400"> ₦200–400</label><label class="choice"><input type="radio" name="q20_extra" value="Over ₦400"> Over ₦400</label><label class="choice"><input type="radio" name="q20_extra" value="Not sure"> Not sure</label></div></div>
+          <div class="question"><div class="qtitle">21. How often do you skip trips or go offline because fuel cost is higher than the fare?</div><div class="options two"><label class="choice"><input type="radio" name="q21_offline" value="Never"> Never</label><label class="choice"><input type="radio" name="q21_offline" value="Rarely"> Rarely</label><label class="choice"><input type="radio" name="q21_offline" value="Sometimes"> Sometimes</label><label class="choice"><input type="radio" name="q21_offline" value="Often"> Often</label><label class="choice"><input type="radio" name="q21_offline" value="Almost daily"> Almost daily</label></div></div>
+          <div class="question"><div class="qtitle">22. Do passengers insist on air conditioning, and how much does that add to fuel use?</div><div class="subgrid"><div class="subbox"><strong>Passengers insist on AC</strong><label class="choice"><input type="radio" name="q22_ac_demand" value="Often"> Often</label><label class="choice"><input type="radio" name="q22_ac_demand" value="Sometimes"> Sometimes</label><label class="choice"><input type="radio" name="q22_ac_demand" value="Rarely"> Rarely</label></div><div class="subbox"><strong>Extra fuel use from AC</strong><label class="choice"><input type="radio" name="q22_ac_fuel" value="Adds a lot"> Adds a lot</label><label class="choice"><input type="radio" name="q22_ac_fuel" value="Adds a little"> Adds a little</label><label class="choice"><input type="radio" name="q22_ac_fuel" value="Not sure"> Not sure</label></div></div></div>
+          <div class="nav"><button type="button" class="btn-back">Back</button><button type="button" class="btn-next">Next: Maintenance</button></div>
+        </section>
+
+        <section class="section" data-section="3">
+          <div class="section-head"><div class="section-kicker">Section D</div><h2>Maintenance and other car costs</h2><p>Regular and major vehicle expenses.</p></div>
+          <div class="question"><div class="qtitle">23. Who pays for servicing and repairs?</div><div class="options two"><label class="choice"><input type="radio" name="q23_repairs" value="I pay fully"> I pay fully</label><label class="choice"><input type="radio" name="q23_repairs" value="The owner pays"> The owner pays</label><label class="choice"><input type="radio" name="q23_repairs" value="We share"> We share</label><label class="choice"><input type="radio" name="q23_repairs" value="Company pays"> Company pays</label></div></div>
+          <div class="question"><div class="qtitle">24. Typical monthly spend on maintenance (oil, pads, tyres, minor repairs)</div><div class="options two"><label class="choice"><input type="radio" name="q24_maintenance" value="Under ₦20,000"> Under ₦20,000</label><label class="choice"><input type="radio" name="q24_maintenance" value="₦20,000–40,000"> ₦20,000–40,000</label><label class="choice"><input type="radio" name="q24_maintenance" value="₦40,000–70,000"> ₦40,000–70,000</label><label class="choice"><input type="radio" name="q24_maintenance" value="₦70,000–100,000"> ₦70,000–100,000</label><label class="choice"><input type="radio" name="q24_maintenance" value="Over ₦100,000"> Over ₦100,000</label></div></div>
+          <div class="question"><div class="qtitle">25. In the last 6 months, have you had a major repair (engine, gearbox, accident)?</div><div class="options two"><label class="choice"><input type="radio" name="q25_major_repair" value="Yes"> Yes</label><label class="choice"><input type="radio" name="q25_major_repair" value="No"> No</label></div><input class="other conditional" data-show-if="q25_major_repair:Yes" type="text" name="q25_amount" placeholder="If yes, roughly how much (₦)?"></div>
+          <div class="question"><div class="qtitle">26. Other regular costs</div><div class="hint">Tick all that apply.</div><div class="options two"><label class="choice"><input type="checkbox" name="q26_costs[]" value="Mobile data"> Mobile data</label><label class="choice"><input type="checkbox" name="q26_costs[]" value="Food on the road"> Food on the road</label><label class="choice"><input type="checkbox" name="q26_costs[]" value="Parking"> Parking</label><label class="choice"><input type="checkbox" name="q26_costs[]" value="Tolls"> Tolls</label><label class="choice"><input type="checkbox" name="q26_costs[]" value="Insurance"> Insurance</label><label class="choice"><input type="checkbox" name="q26_costs[]" value="Vehicle papers and renewals"> Vehicle papers and renewals</label><label class="choice"><input type="checkbox" name="q26_costs[]" value="Unofficial checkpoint payments"> Unofficial checkpoint payments</label></div></div>
+          <div class="nav"><button type="button" class="btn-back">Back</button><button type="button" class="btn-next">Next: Revenue</button></div>
+        </section>
+
+        <section class="section" data-section="4">
+          <div class="section-head"><div class="section-kicker">Section E</div><h2>Revenue and take-home</h2><p>Approximate figures are fine.</p></div>
+          <div class="question"><div class="qtitle">27. Typical gross earnings from the app(s) on a good day</div><div class="options two"><label class="choice"><input type="radio" name="q27_good_gross" value="Under ₦30,000"> Under ₦30,000</label><label class="choice"><input type="radio" name="q27_good_gross" value="₦30,000–50,000"> ₦30,000–50,000</label><label class="choice"><input type="radio" name="q27_good_gross" value="₦50,000–70,000"> ₦50,000–70,000</label><label class="choice"><input type="radio" name="q27_good_gross" value="₦70,000–100,000"> ₦70,000–100,000</label><label class="choice"><input type="radio" name="q27_good_gross" value="Over ₦100,000"> Over ₦100,000</label></div></div><div class="question"><div class="qtitle">28. Typical gross earnings on a bad day</div><div class="options two"><label class="choice"><input type="radio" name="q28_bad_gross" value="Under ₦20,000"> Under ₦20,000</label><label class="choice"><input type="radio" name="q28_bad_gross" value="₦20,000–30,000"> ₦20,000–30,000</label><label class="choice"><input type="radio" name="q28_bad_gross" value="₦30,000–50,000"> ₦30,000–50,000</label><label class="choice"><input type="radio" name="q28_bad_gross" value="₦50,000–70,000"> ₦50,000–70,000</label><label class="choice"><input type="radio" name="q28_bad_gross" value="Over ₦70,000"> Over ₦70,000</label></div></div><div class="question"><div class="qtitle">29. After fuel, commission and small daily costs, what do you usually take home on a good day?</div><div class="options two"><label class="choice"><input type="radio" name="q29_good_takehome" value="Under ₦5,000"> Under ₦5,000</label><label class="choice"><input type="radio" name="q29_good_takehome" value="₦5,000–10,000"> ₦5,000–10,000</label><label class="choice"><input type="radio" name="q29_good_takehome" value="₦10,000–20,000"> ₦10,000–20,000</label><label class="choice"><input type="radio" name="q29_good_takehome" value="₦20,000–30,000"> ₦20,000–30,000</label><label class="choice"><input type="radio" name="q29_good_takehome" value="Over ₦30,000"> Over ₦30,000</label></div></div><div class="question"><div class="qtitle">30. Platform commission feels:</div><div class="options two"><label class="choice"><input type="radio" name="q30_commission" value="Too high"> Too high</label><label class="choice"><input type="radio" name="q30_commission" value="High but manageable"> High but manageable</label><label class="choice"><input type="radio" name="q30_commission" value="Fair"> Fair</label><label class="choice"><input type="radio" name="q30_commission" value="Not sure"> Not sure</label></div></div><div class="question"><div class="qtitle">31. Compared with 6–12 months ago, your real take-home is:</div><div class="options two"><label class="choice"><input type="radio" name="q31_change" value="Much worse"> Much worse</label><label class="choice"><input type="radio" name="q31_change" value="Worse"> Worse</label><label class="choice"><input type="radio" name="q31_change" value="About the same"> About the same</label><label class="choice"><input type="radio" name="q31_change" value="Better"> Better</label></div></div>          <div class="question"><div class="qtitle">32. If you hire the car, how much do you remit to the owner?</div><input type="text" name="q32_remit" placeholder="Amount and whether daily or weekly"></div>
+          <div class="nav"><button type="button" class="btn-back">Back</button><button type="button" class="btn-next">Next: Safety</button></div>
+        </section>
+
+        <section class="section" data-section="5">
+          <div class="section-head"><div class="section-kicker">Section F</div><h2>Insecurity</h2><p>These questions help identify practical safety measures for drivers.</p></div>
+          <div class="question"><div class="qtitle">33. In the last 12 months, have you experienced any of these while working?</div><div class="hint">Tick all that apply.</div><div class="options two"><label class="choice"><input type="checkbox" name="q33_incidents[]" value="Robbery"> Robbery</label><label class="choice"><input type="checkbox" name="q33_incidents[]" value="Attempted robbery"> Attempted robbery</label><label class="choice"><input type="checkbox" name="q33_incidents[]" value="Phone snatched"> Phone snatched</label><label class="choice"><input type="checkbox" name="q33_incidents[]" value="Car snatched or attempted"> Car snatched or attempted</label><label class="choice"><input type="checkbox" name="q33_incidents[]" value="Threat or assault"> Threat or assault</label><label class="choice"><input type="checkbox" name="q33_incidents[]" value="Fake rider / set-up"> Fake rider / set-up</label><label class="choice"><input type="checkbox" name="q33_incidents[]" value="Kidnapping scare"> Kidnapping scare</label><label class="choice"><input type="checkbox" name="q33_incidents[]" value="None of the above"> None of the above</label></div></div>
+          <div class="question"><div class="qtitle">34. How safe do you feel driving at night in Lagos?</div><div class="options two"><label class="choice"><input type="radio" name="q34_night_safety" value="Very unsafe"> Very unsafe</label><label class="choice"><input type="radio" name="q34_night_safety" value="Unsafe"> Unsafe</label><label class="choice"><input type="radio" name="q34_night_safety" value="Mixed"> Mixed</label><label class="choice"><input type="radio" name="q34_night_safety" value="Safe"> Safe</label><label class="choice"><input type="radio" name="q34_night_safety" value="Very safe"> Very safe</label></div></div>
+          <div class="question"><div class="qtitle">35. Areas you avoid, especially at night</div><textarea name="q35_avoid_areas" placeholder="List areas"></textarea></div>
+          <div class="question"><div class="qtitle">36. What would make you feel safer?</div><div class="hint">Tick up to three.</div><div class="options two limit-check" data-max="3"><label class="choice"><input type="checkbox" name="q36_safety[]" value="In-car camera"> In-car camera</label><label class="choice"><input type="checkbox" name="q36_safety[]" value="Panic button linked to response team"> Panic button linked to response team</label><label class="choice"><input type="checkbox" name="q36_safety[]" value="Better rider identity checks"> Better rider identity checks</label><label class="choice"><input type="checkbox" name="q36_safety[]" value="Cashless trips only"> Cashless trips only</label><label class="choice"><input type="checkbox" name="q36_safety[]" value="Working daytime only"> Working daytime only</label><label class="choice"><input type="checkbox" name="q36_safety[]" value="Better street lighting"> Better street lighting</label><label class="choice"><input type="checkbox" name="q36_safety[]" value="Insurance that actually pays after an incident"> Insurance that actually pays after an incident</label></div><input class="other" type="text" name="q36_other" placeholder="Other safety measure"></div>
+          <div class="question"><div class="qtitle">37. Have you cancelled or rejected a trip mainly because of safety?</div><div class="options two"><label class="choice"><input type="radio" name="q37_cancel_safety" value="Never"> Never</label><label class="choice"><input type="radio" name="q37_cancel_safety" value="Rarely"> Rarely</label><label class="choice"><input type="radio" name="q37_cancel_safety" value="Sometimes"> Sometimes</label><label class="choice"><input type="radio" name="q37_cancel_safety" value="Often"> Often</label></div></div>
+          <div class="nav"><button type="button" class="btn-back">Back</button><button type="button" class="btn-next">Next: Officials</button></div>
+        </section>
+
+        <section class="section" data-section="6">
+          <div class="section-head"><div class="section-kicker">Section G</div><h2>Police, LASTMA, VIO and other officials</h2><p>Tell us what official stops cost in time and money.</p></div>
+          <div class="question"><div class="qtitle">38. How many times in a typical week are you stopped by police, LASTMA, VIO, task force or similar?</div><div class="options two"><label class="choice"><input type="radio" name="q38_stops" value="0"> 0</label><label class="choice"><input type="radio" name="q38_stops" value="1–2"> 1–2</label><label class="choice"><input type="radio" name="q38_stops" value="3–5"> 3–5</label><label class="choice"><input type="radio" name="q38_stops" value="6–10"> 6–10</label><label class="choice"><input type="radio" name="q38_stops" value="More than 10"> More than 10</label></div></div>
+          <div class="question"><div class="qtitle">39. When stopped, what usually happens?</div><div class="hint">Tick all that apply.</div><div class="options two"><label class="choice"><input type="checkbox" name="q39_stop_events[]" value="Papers checked and I go"> Papers checked and I go</label><label class="choice"><input type="checkbox" name="q39_stop_events[]" value="Asked for money"> Asked for money</label><label class="choice"><input type="checkbox" name="q39_stop_events[]" value="Vehicle delayed"> Vehicle delayed</label><label class="choice"><input type="checkbox" name="q39_stop_events[]" value="Taken to a station"> Taken to a station</label><label class="choice"><input type="checkbox" name="q39_stop_events[]" value="Papers seized"> Papers seized</label><label class="choice"><input type="checkbox" name="q39_stop_events[]" value="Insulted or threatened"> Insulted or threatened</label><label class="choice"><input type="checkbox" name="q39_stop_events[]" value="Nothing serious"> Nothing serious</label></div></div>
+          <div class="question"><div class="qtitle">40. In a typical week, how much do you spend on unofficial settlements, tips or levies to officials?</div><div class="options two"><label class="choice"><input type="radio" name="q40_official_spend" value="₦0"> ₦0</label><label class="choice"><input type="radio" name="q40_official_spend" value="Under ₦2,000"> Under ₦2,000</label><label class="choice"><input type="radio" name="q40_official_spend" value="₦2,000–5,000"> ₦2,000–5,000</label><label class="choice"><input type="radio" name="q40_official_spend" value="₦5,000–10,000"> ₦5,000–10,000</label><label class="choice"><input type="radio" name="q40_official_spend" value="₦10,000–20,000"> ₦10,000–20,000</label><label class="choice"><input type="radio" name="q40_official_spend" value="Over ₦20,000"> Over ₦20,000</label></div></div>
+          <div class="question"><div class="qtitle">41. Which agency do you encounter most as a problem?</div><div class="options two"><label class="choice"><input type="radio" name="q41_agency" value="Police"> Police</label><label class="choice"><input type="radio" name="q41_agency" value="LASTMA"> LASTMA</label><label class="choice"><input type="radio" name="q41_agency" value="VIO"> VIO</label><label class="choice"><input type="radio" name="q41_agency" value="Task force"> Task force</label><label class="choice"><input type="radio" name="q41_agency" value="Mixed / several"> Mixed / several</label><label class="choice"><input type="radio" name="q41_agency" value="None"> None</label></div></div>
+          <div class="question"><div class="qtitle">42. Do these stops cost you more in time, money, or both?</div><div class="options three"><label class="choice"><input type="radio" name="q42_cost" value="Mostly time"> Mostly time</label><label class="choice"><input type="radio" name="q42_cost" value="Mostly money"> Mostly money</label><label class="choice"><input type="radio" name="q42_cost" value="Both equally"> Both equally</label></div></div>
+          <div class="question"><div class="qtitle">43. In the last 12 months, were you arrested, detained, or was the car impounded while working?</div><div class="options two"><label class="choice"><input type="radio" name="q43_detained" value="Yes"> Yes</label><label class="choice"><input type="radio" name="q43_detained" value="No"> No</label></div><textarea class="other conditional" data-show-if="q43_detained:Yes" name="q43_details" placeholder="If yes, briefly what happened (optional)"></textarea></div>
+          <div class="nav"><button type="button" class="btn-back">Back</button><button type="button" class="btn-next">Next: Priorities & pilot</button></div>
+        </section>
+
+        <section class="section" data-section="7">
+          <div class="section-head"><div class="section-kicker">Section H</div><h2>Ranking problems and what would help</h2><p>Final section. Rank your biggest problems and tell us what would make the work better.</p></div>
+          <div class="question"><div class="qtitle">44. Rank the problems that hurt your work most.</div><div class="hint">Write 1 next to the worst, then 2, 3, 4, 5. You can leave the rest blank. Each rank should be used only once.</div>
+            <div class="rank-grid" id="rankGrid">
+              <div class="rank-row"><span>Fuel price</span><select class="rank-select" name="q44_rank_fuel_price"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><div class="rank-row"><span>Fuel scarcity / queues</span><select class="rank-select" name="q44_rank_fuel_scarcity"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><div class="rank-row"><span>Vehicle maintenance</span><select class="rank-select" name="q44_rank_maintenance"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><div class="rank-row"><span>Platform commission / low fares</span><select class="rank-select" name="q44_rank_commission"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><div class="rank-row"><span>Traffic / time on the road</span><select class="rank-select" name="q44_rank_traffic"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><div class="rank-row"><span>Insecurity / crime</span><select class="rank-select" name="q44_rank_insecurity"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><div class="rank-row"><span>Police / LASTMA / official harassment</span><select class="rank-select" name="q44_rank_officials"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><div class="rank-row"><span>Fatigue / long hours</span><select class="rank-select" name="q44_rank_fatigue"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><div class="rank-row"><span>Accidents / bad roads</span><select class="rank-select" name="q44_rank_accidents"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><div class="rank-row"><span>Other</span><select class="rank-select" name="q44_rank_other"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>            </div><input class="other" type="text" name="q44_other_text" placeholder="If Other, describe it"></div>
+
+          <div class="ev-card"><div><strong>Lower running-cost pilot</strong><p>The survey also asks about interest in EV or CNG options, an in-app wallet and stronger safety tools.</p></div><img src="assets/ev-brand.png" alt="OJAJA mobility graphic"></div>
+          <div class="question"><div class="qtitle">45. If a new service offered cheaper running cost (EV or CNG), an in-app wallet, and better safety tools, how interested would you be?</div><div class="options two"><label class="choice"><input type="radio" name="q45_interest" value="Not interested"> Not interested</label><label class="choice"><input type="radio" name="q45_interest" value="Need to know more"> Need to know more</label><label class="choice"><input type="radio" name="q45_interest" value="Interested"> Interested</label><label class="choice"><input type="radio" name="q45_interest" value="Very interested"> Very interested</label></div></div>
+          <div class="question"><div class="qtitle">46. Would you join a waitlist for an EV or CNG ride-hailing pilot in Lagos?</div><div class="options three"><label class="choice"><input type="radio" name="q46_waitlist" value="Yes"> Yes</label><label class="choice"><input type="radio" name="q46_waitlist" value="No"> No</label><label class="choice"><input type="radio" name="q46_waitlist" value="Maybe"> Maybe</label></div></div>
+          <div class="question"><div class="qtitle">47. What is the one change that would help you most in the next 6 months?</div><textarea name="q47_change"></textarea></div>
+          <div class="question"><div class="qtitle">48. Anything else we should know?</div><textarea name="q48_other"></textarea></div>
+          <div class="question"><div class="qtitle">Optional contact</div><div class="hint">Leave blank to stay fully anonymous.</div><div class="subgrid"><input type="text" name="contact_name" placeholder="Name (optional)"><input type="tel" name="contact_phone" placeholder="WhatsApp / phone (optional)"></div><input class="other" type="text" name="contact_lga" placeholder="Preferred work LGA"></div>
+          <div class="notice"><strong>Thank you.</strong> Your answers will be used only to understand driver conditions in Lagos and to design fairer, safer operations.</div>
+          <div id="submitStatus" class="submit-status" role="status" aria-live="polite"></div><div class="nav"><button type="button" class="btn-back">Back</button><button type="submit" class="btn-submit">Submit survey</button></div>
+        </section>
+      </div>
+    </form>
+    </div>
+  <div class="footer">OJAJA Ride · Lagos Ride-Hailing Driver Survey</div>
+</main>
+<script>
+(() => {
+  const sections = [...document.querySelectorAll('.section')];
+  let current = 0;
+  const bar = document.getElementById('progressBar');
+  const label = document.getElementById('progressLabel');
+  const pct = document.getElementById('progressPercent');
+  const form = document.getElementById('surveyForm');
+  const submitBtn = form.querySelector('.btn-submit');
+  const submitStatus = document.getElementById('submitStatus');
+  const startedAt = Date.now();
+
+  function showSection(i){
+    current = Math.max(0, Math.min(i, sections.length - 1));
+    sections.forEach((s,idx)=>s.classList.toggle('active', idx===current));
+    const percent = Math.round(((current + 1) / sections.length) * 100);
+    bar.style.width = percent + '%';
+    label.textContent = `Section ${current + 1} of ${sections.length}`;
+    pct.textContent = percent + '%';
+    window.scrollTo({top: Math.max(0, document.querySelector('.panel').offsetTop - 8), behavior:'smooth'});
+  }
+
+  document.querySelectorAll('.btn-next').forEach(btn => btn.addEventListener('click', () => {
+    if (current === 0) {
+      const consent = form.querySelector('input[name="q1_consent"]:checked');
+      if (!consent) { alert('Please answer the consent question before continuing.'); return; }
+      if (consent.value !== 'Yes') { document.getElementById('consentStop').style.display='block'; return; }
+    }
+    showSection(current + 1);
+  }));
+  document.querySelectorAll('.btn-back').forEach(btn => btn.addEventListener('click', () => showSection(current - 1)));
+
+  document.querySelectorAll('input[name="q1_consent"]').forEach(el => el.addEventListener('change', e => {
+    document.getElementById('consentStop').style.display = e.target.value === 'No' ? 'block' : 'none';
+  }));
+
+  document.querySelectorAll('.limit-check').forEach(group => {
+    const max = Number(group.dataset.max || 99);
+    group.addEventListener('change', e => {
+      if (!e.target.matches('input[type=checkbox]')) return;
+      const checked = group.querySelectorAll('input[type=checkbox]:checked');
+      if (checked.length > max) { e.target.checked = false; alert(`Please select no more than ${max}.`); }
+    });
+  });
+
+  function updateConditionals(){
+    document.querySelectorAll('[data-show-if]').forEach(el => {
+      const [name,value] = el.dataset.showIf.split(':');
+      const chosen = form.querySelector(`input[name="${name}"]:checked`);
+      const show = chosen && chosen.value === value;
+      el.style.display = show ? 'block' : 'none';
+      if (!show) el.value = '';
+    });
+  }
+  form.addEventListener('change', updateConditionals);
+  updateConditionals();
+
+  const rankSelects = [...document.querySelectorAll('.rank-select')];
+  rankSelects.forEach(sel => sel.addEventListener('change', () => {
+    const vals = rankSelects.map(s=>s.value).filter(Boolean);
+    const dup = vals.find((v,i)=>vals.indexOf(v)!==i);
+    if (dup) { sel.value=''; alert(`Rank ${dup} is already used. Each rank from 1 to 5 can only be used once.`); }
+  }));
+
+  function formToObject() {
+    const fd = new FormData(form);
+    const data = {_started_at: startedAt};
+    for (const [rawKey, value] of fd.entries()) {
+      const isArray = rawKey.endsWith('[]');
+      const key = isArray ? rawKey.slice(0, -2) : rawKey;
+      if (isArray) {
+        if (!Array.isArray(data[key])) data[key] = [];
+        data[key].push(value);
+      } else {
+        data[key] = value;
+      }
+    }
+    return data;
+  }
+
+  function setStatus(message, type='info') {
+    submitStatus.textContent = message;
+    submitStatus.className = `submit-status show ${type}`;
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const consent = form.querySelector('input[name="q1_consent"]:checked');
+    if (!consent || consent.value !== 'Yes') {
+      showSection(0);
+      alert('Consent is required before submitting the survey.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    submitBtn.textContent = 'Submitting…';
+    setStatus('Sending your response securely…');
+
+    try {
+      const response = await fetch('/api/submit', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(formToObject())
+      });
+      const result = await response.json().catch(()=>({}));
+      if (!response.ok || !result.ok) throw new Error(result.error || 'Submission failed. Please try again.');
+      const panel = document.querySelector('.panel');
+      panel.innerHTML = `
+        <div class="success">
+          <div class="success-mark">✓</div>
+          <h2>Thank you for sharing your experience.</h2>
+          <p>Your response has been submitted successfully. Your feedback will help OJAJA Ride better understand the day-to-day realities of ride-hailing drivers in Lagos.</p>
+        </div>`;
+      window.scrollTo({top: Math.max(0, document.querySelector('.wrap').offsetTop - 20), behavior:'smooth'});
+    } catch (err) {
+      setStatus(err.message || 'We could not submit your response. Please check your connection and try again.', 'error');
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading');
+      submitBtn.textContent = 'Submit survey';
+    }
+  });
+
+  showSection(0);
+})();
+</script>
+</body>
+</html>
